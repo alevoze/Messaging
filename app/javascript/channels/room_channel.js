@@ -1,18 +1,43 @@
 import consumer from "./consumer"
 
-consumer.subscriptions.create({channel: "RoomChannel", room_id: 1 }, {
-  connected() {
-    console.log("connected...")
-  },
+document.addEventListener('turbolinks:load', () => {
 
-  disconnected() {
-    // Called when the subscription has been terminated by the server
-  },
+   //GET element id on index message
+   const room_element = document.getElementById('room-id');
+   const room_id = room_element.getAttribute('data-room-id');
 
-  received(data) {
-    // Called when there's incoming data on the websocket for this channel
-    console.log(data)
-    const messageContainer = document.getElementById('message')
-    messageContainer.innerHTML = messageContainer.innerHTML + data.html
-  }
+   conole.log(consumer.subscriptions);
+
+   consumer.subscriptions.subscriptions.forEach((subscription) => {
+     consumer.subscriptions.remove(subscription)
+   })
+   
+  consumer.subscriptions.create({channel: "RoomChannel",
+   room_id: room_id }, {
+    connected() {
+      console.log("connected to " + room_id);
+    },
+  
+    disconnected() {
+      
+    },
+  
+    received(data) {
+  
+      //GET element id on index message
+      const user_element = document.getElementById('user-id');
+      const user_id = Number(user_element.getAttribute('data-user-id'));
+  
+      let html;
+  
+      if (user_id === data.message.user_id) {
+        html = data.mine
+      }else {
+        html = data.theirs
+      }
+  
+      const messageContainer = document.getElementById('message')
+      messageContainer.innerHTML = messageContainer.innerHTML + data.html
+    }
+  });
 });

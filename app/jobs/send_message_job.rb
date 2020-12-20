@@ -2,10 +2,17 @@ class SendMessageJob < ApplicationJob
   queue_as :default
 
   def perform(message)
-    html = ApplicationController.render(
-      partial: 'messages/message', #import file
+    mine = ApplicationController.render(
+      partial: 'messages/mine', #import file
       locals: { message: message}
     )
-    ActionCable.server.broadcast "room_channel_#{message.room_id}", html: html
+
+    theirs = ApplicationController.render(
+      partial: 'messages/theirs', #import file
+      locals: { message: message}
+    )
+
+    ActionCable.server.broadcast "room_channel_#{message.room_id}", 
+    mine: mine, theirs:theirs, message: message
   end
 end

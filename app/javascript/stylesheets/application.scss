@@ -46,3 +46,42 @@
         }   
     }
 }
+
+.card.no-outline {
+    border:none;
+}
+
+
+.room-link {
+    &:hover{
+        text-decoration: none !important;
+    }
+    
+    .room-card {
+        transition: background-color 0.5s ease;
+        
+        &:hover{
+            background-color: #eeeeee;
+        }
+        .name {
+            font-weight: bold;
+            color: black;
+    
+        }
+        .member-count{
+            color: #777777;
+            font-weight: light;
+        }
+
+        &:active{
+            background-color: black;
+            .name {
+                color: white;
+            }
+            .member-count{
+                color: #e0e0e0;
+            }
+            color: white;
+        }
+    }
+}
