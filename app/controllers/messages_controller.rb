@@ -3,6 +3,7 @@ class MessagesController < ApplicationController
 
   # GET /messages
   # GET /messages.json
+  #Membuat Func index, tampilkan semua data Message 
   def index
     @messages = Message.all
   end
@@ -10,6 +11,7 @@ class MessagesController < ApplicationController
   # GET /messages/1
   # GET /messages/1.json
   def show
+    # @messages = Message.all
   end
 
   # GET /messages/new
@@ -23,22 +25,20 @@ class MessagesController < ApplicationController
 
   # POST /messages
   # POST /messages.json
+  #Membuat Func Create
   def create
-    @message = Message.new(message_params)
 
-    respond_to do |format|
-      if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
-        format.json { render :show, status: :created, location: @message }
-      else
-        format.html { render :new }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
-    end
+    @message = Message.new(message_params)
+    @message.user = current_user
+    @message.save
+    redirect_to request.referrer
+      
   end
+  
 
   # PATCH/PUT /messages/1
   # PATCH/PUT /messages/1.json
+  #Membuat Func Update
   def update
     respond_to do |format|
       if @message.update(message_params)
@@ -53,6 +53,7 @@ class MessagesController < ApplicationController
 
   # DELETE /messages/1
   # DELETE /messages/1.json
+  #Membuat Func Delete
   def destroy
     @message.destroy
     respond_to do |format|
